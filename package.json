@@ -1,0 +1,16 @@
+{
+  "name": "af-score",
+  "version": "0.0.1",
+  "description": "score and information display",
+  "dependencies": {
+    "express": "^4.4.3",
+    "socket.io": "^1.0.4"
+  },
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

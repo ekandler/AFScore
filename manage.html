@@ -1,0 +1,610 @@
+<!doctype html>
+<html>
+  <head>
+    <title>AF-Score</title>
+		
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+
+	<link rel="stylesheet" href="/bower_components/bootstrap-timepicker/css/bootstrap-timepicker.min.css">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<script src="/bower_components/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+	<!-- socket io scripts -->
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/script/Game_Time.js"></script>
+	<script src="/script/Scoreboard.js"></script>
+
+	
+	<style type="text/css">
+	body {
+		padding-top: 70px;
+	}
+	section {
+		padding-top: 55px;
+		margin-top: -50px;
+	}
+	.form-score {
+		padding: 5px 5px;
+		text-align:center;
+	}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body  data-spy="scroll" data-target=".navbar-default">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">AF-Score</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#time">Game Clock</a></li>
+            <li><a href="#score">Scoreboard</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+	<!--
+	<section id="alert" class="container">
+	<div class="alert alert-info">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+   <a href="#" class="alert-link">Info! take this info.</a>
+</div>
+</section>-->
+
+	
+	<section id="time" class="container">
+		<div class="panel panel-default">
+		  <div class="panel-heading">Game Clock</div>
+		  <div class="panel-body">
+		  
+		  <div class="form-horizontal">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="button1id">Show Game Clock</label>
+			  <div class="col-md-4">
+				 <div id="game_time__toggleClock" class="btn-group btn-toggle"> 
+					<button  id="game_time__showClock" class="btn btn-success disabled">Show</button>
+					<button  id="game_time__hideClock"  class="btn btn-danger active">Hide</button>
+				  </div>
+			  </div>
+			</div>
+			</div>
+
+			<form id="game_time__timeSecondsForm" class="form-horizontal" role="form">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="time">Current Time</label>
+			  <div class="col-md-4">
+				<div class="input-group">
+				  <span id="game_time__timeSecondsValue" class="input-group-addon">Error</span>
+				  <input id="game_time__timeSecondsInput" name="time" class="form-control" placeholder="12:00" type="text">
+				  <span class="input-group-btn"><button type="submit" class="btn btn-default">Set</button></span>
+				  <span class="input-group-btn"><button id="game_time__clearTime"  class="btn btn-default">Set to 0</button></span>
+				</div>
+				<p class="help-block">Set game time</p>
+			  </div>
+			</div>
+			</form>
+			
+			<div class="form-horizontal">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="button1id">Start/Stop Time</label>
+			  <div class="col-md-4">
+				 <div id="game_time__toggleStart" class="btn-group btn-toggle"> 
+					<button id="game_time__startClock" class="btn btn-success disabled">Start</button>
+					<button id="game_time__stopClock" class="btn btn-danger active">Stop</button>
+				  </div>
+			  </div>
+			</div>
+			</div>
+			
+			<div class="form-horizontal">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="button1id">Additional Info</label>
+			  <div class="col-md-5">
+				 <div id="game_time__toggleInfo" class="btn-group" data-toggle="buttons">
+				  <label id="game_time__info_NOINFO" class="btn btn-sm btn-primary active"><input type="radio" name="options" id="0">No Info</label>
+				  <label id="game_time__info_FLAG" class="btn btn-sm btn-warning"><input type="radio" name="options" id="1">Flag</label>
+				  <label id="game_time__info_THOME" class="btn btn-sm btn-info"><input type="radio" name="options" id="2">T Home</label>
+				  <label id="game_time__info_TGUESTS" class="btn btn-sm btn-info"><input type="radio" name="options" id="3">T Guests</label>
+				  <label id="game_time__info_TOFFICIALS" class="btn btn-sm btn-info"><input type="radio" name="options" id="4">T Officials</label>
+				  <label id="game_time__info_MERCY" class="btn btn-sm btn-primary"><input type="radio" name="options" id="8">Mercy</label>
+				</div>
+				<p class="help-block">Pressing a timeout button stops the clock.</p>
+			  </div>
+			</div>
+			</div>
+			
+			<div class="form-horizontal">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="time">Quarter</label>
+			  <div class="col-md-1">
+				<div class="input-group">
+				  
+				  <span id="game_time__decQuarter" class="input-group-btn"><button class="btn btn-default">-</button></span>
+				  <span id="game_time__quarterValue" name="quarter" class="form-control" >ERR</span>
+				  <span id="game_time__incQuarter" class="input-group-btn"><button class="btn btn-default">+</button></span>
+				</div>
+			  </div>
+			  
+			  <div class="col-md-3">
+				<p class="help-block"> (values > 4 indicate overtime)</p>
+			</div>
+			</div>
+			</div>
+		  
+			
+		  </div>
+		</div>
+	</section>
+
+	<section id="score" class="container">
+		<div class="panel panel-default">
+		  <div class="panel-heading">Scoreboard</div>
+		  <div class="panel-body">
+		  
+		  <div class="form-horizontal">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="button1id">Show Score</label>
+			  <div class="col-md-4">
+				 <div id="scoreboard__toggleVisible" class="btn-group btn-toggle"> 
+					<button id="scoreboard__show" class="btn btn-success active">Show</button>
+					<button id="scoreboard__hide" class="btn btn-danger disabled">Hide</button>
+				  </div>
+			  </div>
+			</div>
+			</div>
+			
+			<form id="scoreboard__pointsForm" class="form-horizontal">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="button1id">Current Score</label>
+			  <div class="col-md-4">
+				 <div class="input-group"> 
+				 <span class="input-group-addon control-label">Home</span>
+				  <input id="scoreboard__pointsHome" name="score_home" class="form-control form-score"  type="text" value="ERR">
+				 <span class="input-group-addon control-label ">Guests</span>
+				  <input id="scoreboard__pointsGuests" name="score_home" class="form-control form-score"  type="text" value="ERR">
+				  <span class="input-group-btn"><button type="submit" class="btn btn-default">Set</button></span>
+				  </div>
+				  
+
+			  </div>
+			</div>
+			</form>
+			
+		  
+			<div class="form-horizontal">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="button1id">Points Home</label>
+			  <div class="col-md-4">
+				 <div class="btn-group "> 
+					<button id="scoreboard__pointsHome_dec_6" class="btn btn-danger">-6</button>
+					<button id="scoreboard__pointsHome_dec_3" class="btn btn-danger">-3</button>
+					<button id="scoreboard__pointsHome_dec_2" class="btn btn-danger">-2</button>
+					<button id="scoreboard__pointsHome_dec_1" class="btn btn-danger">-1</button>
+				  </div>
+				  
+				 <div class="btn-group " style="text-align:right"> 
+					<button id="scoreboard__pointsHome_inc_1" class="btn btn-success">+1</button>
+					<button id="scoreboard__pointsHome_inc_2" class="btn btn-success">+2</button>
+					<button id="scoreboard__pointsHome_inc_3" class="btn btn-success">+3</button>
+					<button id="scoreboard__pointsHome_inc_6" class="btn btn-success">+6</button>
+				  </div>
+			  </div>
+			</div>
+			</div>
+			
+			<div class="form-horizontal">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="button1id">Points Guests</small></label>
+			  <div class="col-md-4">
+				 <div class="btn-group "> 
+					<button id="scoreboard__pointsGuests_dec_6" class="btn btn-danger">-6</button>
+					<button id="scoreboard__pointsGuests_dec_3" class="btn btn-danger">-3</button>
+					<button id="scoreboard__pointsGuests_dec_2" class="btn btn-danger">-2</button>
+					<button id="scoreboard__pointsGuests_dec_1" class="btn btn-danger">-1</button>
+				  </div>
+				  
+				 <div class="btn-group " style="text-align:right"> 
+					<button id="scoreboard__pointsGuests_inc_1"class="btn btn-success">+1</button>
+					<button id="scoreboard__pointsGuests_inc_2"class="btn btn-success">+2</button>
+					<button id="scoreboard__pointsGuests_inc_3"class="btn btn-success">+3</button>
+					<button id="scoreboard__pointsGuests_inc_6"class="btn btn-success">+6</button>
+				  </div>
+			  </div>
+			</div>
+			</div>
+			
+			
+			<div class="form-horizontal">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="button1id">Down</label>
+			  <div class="col-md-4">
+				 <div class="btn-group" data-toggle="buttons">
+				  <label class="btn btn-sm btn-info active"><input type="radio" name="options" id="option1">Unknown/Hide</label>
+				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">1st</label>
+				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">2nd</label>
+				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">3rd</label>
+				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">4th</label>
+				</div>
+			  </div>
+			</div>
+			</div>
+			
+			<form class="form-horizontal">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="button1id">Distance to go</label>
+			  <div class="col-md-4">
+				 <div class="input-group"> 
+				  <span class="input-group-addon control-label">Yards</span>
+				  <input id="score_home" name="score_home" class="form-control form-score"  type="text" value="15">
+				  <div class=" input-group-btn">
+				  <button class="btn btn-default">10</button>
+				  <button class="btn btn-default">5</button>
+				  <button class="btn btn-default">Goal</button>
+				  </div>
+				  </div>
+				  
+
+			  </div>
+			</div>
+			</form>
+			
+			<div class="form-horizontal">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="button1id">Timeouts</label>
+			  <div class="col-md-4">
+			  <div class="input-group">
+			  <span id="quarter" name="quarter" class="input-group-addon" style="width:70px">Home</span>
+				 <div class=" btn-group" data-toggle="buttons">
+				  <label class="btn btn-sm btn-primary active"><input type="radio" name="options" id="option1">3</label>
+				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">2</label>
+				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">1</label>
+				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">0</label>
+				</div>
+				</div>
+				
+			<div class="input-group">
+			  <span id="quarter" name="quarter" class="input-group-addon" style="width:70px">Guests</span>
+				 <div class=" btn-group" data-toggle="buttons">
+				  <label class="btn btn-sm btn-primary active"><input type="radio" name="options" id="option1">3</label>
+				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">2</label>
+				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">1</label>
+				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">0</label>
+				</div>
+				</div>
+			  </div>
+			</div>
+			</div>
+		  
+		  </div>
+		</div>
+	</section>
+	
+
+
+	
+	<script>
+
+
+	var socket = io();
+	
+            $('#game_time__timeSecondsInput').timepicker({
+                minuteStep: 1,
+                appendWidgetTo: 'body',
+                showSeconds: false,
+                showMeridian: false,
+                defaultTime: false
+            });
+
+	
+	// ############# SEND GAME CLOCK ################
+	socket.on('chat message', function(msg){
+		//alert("Alert message box has been closed.");
+	});
+	
+	
+	// toggle Clock Visible
+	$('#game_time__toggleClock').click(function(){
+		console.log('toggle clock visibility');
+		game_time.toggleVisibility();
+		socket.emit('game time', game_time);
+	});
+	
+	// remaining time to play
+	function timeToSeconds(time) {
+		var time = time.split(/:/);
+		var minutes = parseInt(time[0]);
+		var seconds = parseInt(time[1]);
+		return minutes * 60 + seconds;
+	}
+	$('#game_time__timeSecondsForm').submit(function(){
+		console.log('setting time');
+		try {
+			var input = $('#game_time__timeSecondsInput').val();
+			if (input) seconds = timeToSeconds(input);
+			else seconds = game_time.RESETTIME;
+			if (isNaN(seconds)) throw "seconds is NaN";
+			$('#game_time__timeSecondsInput').val('')
+			game_time.setTimeSeconds(seconds);
+			console.log('setting time to ' + seconds);
+			socket.emit('game time', game_time);
+		} catch (e) {
+		
+			console.error('could not set time');
+		}
+		return false;
+	});
+	
+	$('#game_time__clearTime').click(function(){
+		console.log('clear remaining game time');
+		game_time.setTimeSeconds(0);
+		socket.emit('game time', game_time);
+		return false;
+	});
+	
+	// toggle Clock Timer
+	$('#game_time__toggleStart').click(function(){
+		console.log('toggle clock start/stop');
+		game_time.toggleTimeRunning();
+		socket.emit('game time', game_time);
+	});
+	
+	// addidtional clock info
+	$('#game_time__info_NOINFO').click(function(){
+		game_time.setInfo(game_time.InfoEnum.NOINFO);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__info_FLAG').click(function(){
+		game_time.setInfo(game_time.InfoEnum.FLAG);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__info_THOME').click(function(){
+		game_time.setTimeRunning(false);
+		game_time.setInfo(game_time.InfoEnum.THOME);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__info_TGUESTS').click(function(){
+		game_time.setTimeRunning(false);
+		game_time.setInfo(game_time.InfoEnum.TGUESTS);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__info_TOFFICIALS').click(function(){
+		game_time.setTimeRunning(false);
+		game_time.setInfo(game_time.InfoEnum.TOFFICIALS);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__info_MERCY').click(function(){
+		game_time.setInfo(game_time.InfoEnum.MERCY);
+		socket.emit('game time', game_time);
+	});
+	
+	// quarters
+	$('#game_time__incQuarter').click(function(){
+		console.log("inc Quarter");
+		game_time.incQuarter();
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__decQuarter').click(function(){
+		console.log("dec Quarter");
+		game_time.decQuarter();
+		socket.emit('game time', game_time);
+	});
+	
+	
+	// ########### RECEIVE GAME CLOCK ###########
+	socket.on('game time', function(_gametime){
+		$.extend(game_time,_gametime);
+		
+
+		// Visible
+		if (game_time.isVisible()) {
+			$('#game_time__showClock').removeClass('active').addClass('disabled');
+			$('#game_time__hideClock').removeClass('disabled').addClass('active');
+		} else {
+			$('#game_time__showClock').removeClass('disabled').addClass('active');
+			$('#game_time__hideClock').removeClass('active').addClass('disabled');
+		}
+		
+		// Time
+		var value = game_time.getTimeSeconds();
+		//console.log(value);
+		var seconds = value % 60;
+		if (seconds < 10) seconds = '0' + seconds;
+		
+		var minutes = Math.floor(value / 60);
+		if (minutes < 10) minutes = '0' + minutes;
+		
+		$('#game_time__timeSecondsValue').text(minutes + ":" + seconds);
+		
+		// Running
+		if (game_time.isTimeRunning()) {
+			$('#game_time__startClock').removeClass('active').addClass('disabled');
+			$('#game_time__stopClock').removeClass('disabled').addClass('active');
+		} else {
+			$('#game_time__startClock').removeClass('disabled').addClass('active');
+			$('#game_time__stopClock').removeClass('active').addClass('disabled');
+		}
+		
+		
+		// additional clock info
+		$('#game_time__info_NOINFO').removeClass('active');
+		$('#game_time__info_FLAG').removeClass('active');
+		$('#game_time__info_THOME').removeClass('active');
+		$('#game_time__info_TGUESTS').removeClass('active');
+		$('#game_time__info_TOFFICIALS').removeClass('active');
+		$('#game_time__info_MERCY').removeClass('active');
+		switch(game_time.getInfo()) {
+			case game_time.InfoEnum.NOINFO:
+				$('#game_time__info_NOINFO').addClass('active');
+				break;
+			case game_time.InfoEnum.FLAG:
+				$('#game_time__info_FLAG').addClass('active');
+				break;
+			case game_time.InfoEnum.THOME:
+				$('#game_time__info_THOME').addClass('active');
+				break;
+			case game_time.InfoEnum.TGUESTS:
+				$('#game_time__info_TGUESTS').addClass('active');
+				break;
+			case game_time.InfoEnum.TOFFICIALS:
+				$('#game_time__info_TOFFICIALS').addClass('active');
+				break;
+			case game_time.InfoEnum.MERCY:
+				$('#game_time__info_MERCY').addClass('active');
+				break;
+			default: // NOINFO
+				$('#game_time__info_NOINFO').addClass('active');
+		}
+		
+		// quarter
+		$('#game_time__quarterValue').text(game_time.getQuarter());
+	});
+	
+	// ############# SEND SCOREBOARD ################
+	// toggle Scoreboard Visible
+	$('#scoreboard__toggleVisible').click(function(){
+		console.log('toggle scoreboard visibility');
+		scoreboard.toggleVisibility();
+		socket.emit('scoreboard', scoreboard);
+	});
+	// directly entered points
+	$('#scoreboard__pointsForm').submit(function(){
+		var pointsHome = parseInt($('#scoreboard__pointsHome').val());
+		var pointsGuests = parseInt($('#scoreboard__pointsGuests').val());
+		if (isNaN(pointsHome) || isNaN(pointsGuests)) return false;
+		console.log('setting points manually ' + pointsHome + ' : ' + pointsGuests);
+		scoreboard.setPointsHome(pointsHome);
+		scoreboard.setPointsGuests(pointsGuests);
+		socket.emit('scoreboard', scoreboard);
+		return false;
+	});
+	//points increment/decrement HOME
+	$('#scoreboard__pointsHome_dec_6').click(function(){
+		console.log('decrement home -6');
+		scoreboard.setPointsHome(scoreboard.getPointsHome() - 6);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsHome_dec_3').click(function(){
+		console.log('decrement home -3');
+		scoreboard.setPointsHome(scoreboard.getPointsHome() - 3);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsHome_dec_2').click(function(){
+		console.log('decrement home -2');
+		scoreboard.setPointsHome(scoreboard.getPointsHome() - 2);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsHome_dec_1').click(function(){
+		console.log('decrement home -1');
+		scoreboard.setPointsHome(scoreboard.getPointsHome() - 1);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsHome_inc_1').click(function(){
+		console.log('increment home +1');
+		scoreboard.setPointsHome(scoreboard.getPointsHome() + 1);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsHome_inc_2').click(function(){
+		console.log('increment home +2');
+		scoreboard.setPointsHome(scoreboard.getPointsHome() + 2);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsHome_inc_3').click(function(){
+		console.log('increment home +3');
+		scoreboard.setPointsHome(scoreboard.getPointsHome() + 3);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsHome_inc_6').click(function(){
+		console.log('increment home +6');
+		scoreboard.setPointsHome(scoreboard.getPointsHome() + 6);
+		socket.emit('scoreboard', scoreboard);
+	});
+	
+//points increment/decrement GUESTS
+	$('#scoreboard__pointsGuests_dec_6').click(function(){
+		console.log('decrement guests -6');
+		scoreboard.setPointsGuests(scoreboard.getPointsGuests() - 6);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsGuests_dec_3').click(function(){
+		console.log('decrement guests -3');
+		scoreboard.setPointsGuests(scoreboard.getPointsGuests() - 3);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsGuests_dec_2').click(function(){
+		console.log('decrement guests -2');
+		scoreboard.setPointsGuests(scoreboard.getPointsGuests() - 2);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsGuests_dec_1').click(function(){
+		console.log('decrement guests -1');
+		scoreboard.setPointsGuests(scoreboard.getPointsGuests() - 1);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsGuests_inc_1').click(function(){
+		console.log('increment guests +1');
+		scoreboard.setPointsGuests(scoreboard.getPointsGuests() + 1);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsGuests_inc_2').click(function(){
+		console.log('increment guests +2');
+		scoreboard.setPointsGuests(scoreboard.getPointsGuests() + 2);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsGuests_inc_3').click(function(){
+		console.log('increment guests +3');
+		scoreboard.setPointsGuests(scoreboard.getPointsGuests() + 3);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__pointsGuests_inc_6').click(function(){
+		console.log('increment guests +6');
+		scoreboard.setPointsGuests(scoreboard.getPointsGuests() + 6);
+		socket.emit('scoreboard', scoreboard);
+	});
+	
+	// ############# RECEIVE SCOREBOARD ################
+	socket.on('scoreboard', function(_scoreboard){
+		$.extend(scoreboard,_scoreboard);
+		
+
+		// Visible
+		if (scoreboard.isVisible()) {
+			$('#scoreboard__show').removeClass('active').addClass('disabled');
+			$('#scoreboard__hide').removeClass('disabled').addClass('active');
+		} else {
+			$('#scoreboard__show').removeClass('disabled').addClass('active');
+			$('#scoreboard__hide').removeClass('active').addClass('disabled');
+		}
+		
+		// points
+		$('#scoreboard__pointsHome').val(scoreboard.getPointsHome());
+		$('#scoreboard__pointsGuests').val(scoreboard.getPointsGuests());
+		
+	});
+	
+	$('.btn-toggle').click(function() {
+    $(this).find('.btn').toggleClass('active').toggleClass('disabled');  
+
+	});
+
+	$('form').submit(function(){
+		return false;
+	});
+	</script>
+  </body>
+</html>
