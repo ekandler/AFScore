@@ -10,6 +10,8 @@ Game_Time.prototype = {
 		this.running = false;
 		this.visible = false;
 		this.info = "NOINFO";
+		this.timeoutsHome = 3; // remaining timeouts home
+		this.timeoutsGuests = 3; // remaining timeouts guests
 	},
   
 	RESETTIME: 720,
@@ -92,7 +94,35 @@ Game_Time.prototype = {
 	},
 	getInfo: function() {
 		return this.info;
-	}
+	},
+	
+	
+	
+	setTimeoutsHome: function (timeoutsHome) {
+		if (typeof timeoutsHome === "undefined") return;
+		if (timeoutsHome < -1 || timeoutsHome > 3) timeoutsHome = 0;
+		
+		this.timeoutsHome = timeoutsHome;
+		},
+	getTimeoutsHome: function () {
+		return this.timeoutsHome;
+	},
+	decTimeoutsHome: function () {
+		if (this.timeoutsHome > 0) this.timeoutsHome = this.timeoutsHome - 1;
+	},
+	
+	setTimeoutsGuests: function (timeoutsGuests) {
+		if (typeof timeoutsGuests === "undefined") return;
+		if (timeoutsGuests < -1 || timeoutsGuests > 3) timeoutsGuests = 0;
+		
+		this.timeoutsGuests = timeoutsGuests;
+		},
+	getTimeoutsGuests: function () {
+		return this.timeoutsGuests;
+	},
+	decTimeoutsGuests: function () {
+		if (this.timeoutsGuests > 0) this.timeoutsGuests = this.timeoutsGuests - 1;
+	},
 	
 	
 };

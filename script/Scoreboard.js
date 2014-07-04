@@ -10,8 +10,6 @@ Scoreboard.prototype = {
 		this.pointsGuests = 0;
 		this.down = 0; // 0 = unknown/hide
 		this.distance = 10; // distance to next first down
-		this.timeoutsHome = 3; // remaining timeouts home
-		this.timeoutsGuests = 3; // remaining timeouts guests
 	},
 	
 	setVisibility: function (visible) {
@@ -66,26 +64,6 @@ Scoreboard.prototype = {
 	getDistance: function () {
 		return this.distance;
 	},	
-	
-	getTimeoutsHome: function (timeoutsHome) {
-		if (typeof timeoutsHome === "undefined") return;
-		if (timeoutsHome < 0) timeoutsHome = 0;
-		
-		this.timeoutsHome = timeoutsHome;
-		},
-	setTimeoutsHome: function () {
-		return this.timeoutsHome;
-	},	
-	
-	getTimeoutsGuests: function (timeoutsGuests) {
-		if (typeof timeoutsGuests === "undefined") return;
-		if (timeoutsGuests < 0) timeoutsGuests = 0;
-		
-		this.timeoutsGuests = timeoutsGuests;
-		},
-	setTimeoutsGuests: function () {
-		return this.timeoutsGuests;
-	},
 	
 	
 };

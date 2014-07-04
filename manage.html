@@ -122,7 +122,7 @@
 				  <label id="game_time__info_THOME" class="btn btn-sm btn-info"><input type="radio" name="options" id="2">T Home</label>
 				  <label id="game_time__info_TGUESTS" class="btn btn-sm btn-info"><input type="radio" name="options" id="3">T Guests</label>
 				  <label id="game_time__info_TOFFICIALS" class="btn btn-sm btn-info"><input type="radio" name="options" id="4">T Officials</label>
-				  <label id="game_time__info_MERCY" class="btn btn-sm btn-primary"><input type="radio" name="options" id="8">Mercy</label>
+				  <!--<label id="game_time__info_MERCY" class="btn btn-sm btn-primary"><input type="radio" name="options" id="8">Mercy</label>-->
 				</div>
 				<p class="help-block">Pressing a timeout button stops the clock.</p>
 			  </div>
@@ -144,6 +144,35 @@
 			  <div class="col-md-3">
 				<p class="help-block"> (values > 4 indicate overtime)</p>
 			</div>
+			</div>
+			</div>
+		  
+			<div class="form-horizontal">
+			<div class="form-group">
+			  <label class="col-md-4 control-label" for="button1id">Timeouts</label>
+			  <div class="col-md-4">
+			  <div class="input-group">
+			  <span id="quarter" name="quarter" class="input-group-addon" style="width:70px">Home</span>
+				 <div class=" btn-group" data-toggle="buttons">
+				  <label  id="game_time__timeout_home_3" class="btn btn-sm btn-primary active"><input type="radio" name="options">3</label>
+				  <label  id="game_time__timeout_home_2" class="btn btn-sm btn-primary"><input type="radio" name="options">2</label>
+				  <label  id="game_time__timeout_home_1" class="btn btn-sm btn-primary"><input type="radio" name="options">1</label>
+				  <label  id="game_time__timeout_home_0" class="btn btn-sm btn-primary"><input type="radio" name="options">0</label>
+				  <label  id="game_time__timeout_home_hide" class="btn btn-sm btn-info"><input type="radio" name="options" >Unknown/Hide</label>
+				</div>
+				</div>
+				
+			<div class="input-group">
+			  <span id="quarter" name="quarter" class="input-group-addon" style="width:70px">Guests</span>
+				 <div class=" btn-group" data-toggle="buttons">
+				  <label id="game_time__timeout_guests_3" class="btn btn-sm btn-primary active"><input type="radio" name="options" >3</label>
+				  <label id="game_time__timeout_guests_2" class="btn btn-sm btn-primary"><input type="radio" name="options" >2</label>
+				  <label id="game_time__timeout_guests_1" class="btn btn-sm btn-primary"><input type="radio" name="options" >1</label>
+				  <label id="game_time__timeout_guests_0" class="btn btn-sm btn-primary"><input type="radio" name="options" >0</label>
+				  <label id="game_time__timeout_guests_hide" class="btn btn-sm btn-info"><input type="radio" name="options" >Unknown/Hide</label>
+				</div>
+				</div>
+			  </div>
 			</div>
 			</div>
 		  
@@ -235,27 +264,28 @@
 			  <label class="col-md-4 control-label" for="button1id">Down</label>
 			  <div class="col-md-4">
 				 <div class="btn-group" data-toggle="buttons">
-				  <label class="btn btn-sm btn-info active"><input type="radio" name="options" id="option1">Unknown/Hide</label>
-				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">1st</label>
-				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">2nd</label>
-				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">3rd</label>
-				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">4th</label>
+				  <label id="scoreboard__down_hide" class="btn btn-sm btn-info active"><input type="radio" name="options">Unknown/Hide</label>
+				  <label id="scoreboard__down_1" class="btn btn-sm btn-primary"><input type="radio" name="options">1st</label>
+				  <label id="scoreboard__down_2" class="btn btn-sm btn-primary"><input type="radio" name="options">2nd</label>
+				  <label id="scoreboard__down_3" class="btn btn-sm btn-primary"><input type="radio" name="options">3rd</label>
+				  <label id="scoreboard__down_4" class="btn btn-sm btn-primary"><input type="radio" name="options">4th</label>
 				</div>
 			  </div>
 			</div>
 			</div>
 			
-			<form class="form-horizontal">
+			<form id="scoreboard__distance_form" class="form-horizontal">
 			<div class="form-group">
 			  <label class="col-md-4 control-label" for="button1id">Distance to go</label>
 			  <div class="col-md-4">
 				 <div class="input-group"> 
 				  <span class="input-group-addon control-label">Yards</span>
-				  <input id="score_home" name="score_home" class="form-control form-score"  type="text" value="15">
+				  <input  id="scoreboard__distance" name="score_home" class="form-control form-score"  type="text" value="ERR">
 				  <div class=" input-group-btn">
-				  <button class="btn btn-default">10</button>
-				  <button class="btn btn-default">5</button>
-				  <button class="btn btn-default">Goal</button>
+				  <button type="submit" class="btn btn-default">Set</button>
+				  <button id="scoreboard__distance_10" class="btn btn-default">10</button>
+				  <button id="scoreboard__distance_5" class="btn btn-default">5</button>
+				  <button id="scoreboard__distance_0" class="btn btn-default">Goal</button>
 				  </div>
 				  </div>
 				  
@@ -264,32 +294,7 @@
 			</div>
 			</form>
 			
-			<div class="form-horizontal">
-			<div class="form-group">
-			  <label class="col-md-4 control-label" for="button1id">Timeouts</label>
-			  <div class="col-md-4">
-			  <div class="input-group">
-			  <span id="quarter" name="quarter" class="input-group-addon" style="width:70px">Home</span>
-				 <div class=" btn-group" data-toggle="buttons">
-				  <label class="btn btn-sm btn-primary active"><input type="radio" name="options" id="option1">3</label>
-				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">2</label>
-				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">1</label>
-				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">0</label>
-				</div>
-				</div>
-				
-			<div class="input-group">
-			  <span id="quarter" name="quarter" class="input-group-addon" style="width:70px">Guests</span>
-				 <div class=" btn-group" data-toggle="buttons">
-				  <label class="btn btn-sm btn-primary active"><input type="radio" name="options" id="option1">3</label>
-				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">2</label>
-				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">1</label>
-				  <label class="btn btn-sm btn-primary"><input type="radio" name="options" id="option1">0</label>
-				</div>
-				</div>
-			  </div>
-			</div>
-			</div>
+
 		  
 		  </div>
 		</div>
@@ -376,11 +381,13 @@
 	$('#game_time__info_THOME').click(function(){
 		game_time.setTimeRunning(false);
 		game_time.setInfo(game_time.InfoEnum.THOME);
+		game_time.decTimeoutsHome();
 		socket.emit('game time', game_time);
 	});
 	$('#game_time__info_TGUESTS').click(function(){
 		game_time.setTimeRunning(false);
 		game_time.setInfo(game_time.InfoEnum.TGUESTS);
+		game_time.decTimeoutsGuests();
 		socket.emit('game time', game_time);
 	});
 	$('#game_time__info_TOFFICIALS').click(function(){
@@ -404,6 +411,61 @@
 		game_time.decQuarter();
 		socket.emit('game time', game_time);
 	});
+	
+	// timeouts
+	$('#game_time__timeout_home_3').click(function(){
+		console.log("set timeout home");
+		game_time.setTimeoutsHome(3);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__timeout_home_2').click(function(){
+		console.log("set timeout home");
+		game_time.setTimeoutsHome(2);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__timeout_home_1').click(function(){
+		console.log("set timeout home");
+		game_time.setTimeoutsHome(1);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__timeout_home_0').click(function(){
+		console.log("set timeout home");
+		game_time.setTimeoutsHome(0);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__timeout_home_hide').click(function(){
+		console.log("set timeout home");
+		game_time.setTimeoutsHome(-1);
+		socket.emit('game time', game_time);
+	});
+	
+	$('#game_time__timeout_guests_3').click(function(){
+		console.log("set timeout guests");
+		game_time.setTimeoutsGuests(3);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__timeout_guests_2').click(function(){
+		console.log("set timeout guests");
+		game_time.setTimeoutsGuests(2);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__timeout_guests_1').click(function(){
+		console.log("set timeout guests");
+		game_time.setTimeoutsGuests(1);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__timeout_guests_0').click(function(){
+		console.log("set timeout guests");
+		game_time.setTimeoutsGuests(0);
+		socket.emit('game time', game_time);
+	});
+	$('#game_time__timeout_guests_hide').click(function(){
+		console.log("set timeout guests");
+		game_time.setTimeoutsGuests(-1);
+		socket.emit('game time', game_time);
+	});
+	
+	
 	
 	
 	// ########### RECEIVE GAME CLOCK ###########
@@ -473,6 +535,56 @@
 		
 		// quarter
 		$('#game_time__quarterValue').text(game_time.getQuarter());
+		
+		// timeouts
+		$('#game_time__timeout_home_3').removeClass('active');
+		$('#game_time__timeout_home_2').removeClass('active');
+		$('#game_time__timeout_home_1').removeClass('active');
+		$('#game_time__timeout_home_0').removeClass('active');
+		$('#game_time__timeout_home_hide').removeClass('active');
+		$('#game_time__timeout_guests_3').removeClass('active');
+		$('#game_time__timeout_guests_2').removeClass('active');
+		$('#game_time__timeout_guests_1').removeClass('active');
+		$('#game_time__timeout_guests_0').removeClass('active');
+		$('#game_time__timeout_guests_hide').removeClass('active');
+		switch(game_time.getTimeoutsHome()) {
+			case 3:
+				$('#game_time__timeout_home_3').addClass('active');
+				break;
+			case 2:
+				$('#game_time__timeout_home_2').addClass('active');
+				break;
+			case 1:
+				$('#game_time__timeout_home_1').addClass('active');
+				break;
+			case 0:
+				$('#game_time__timeout_home_0').addClass('active');
+				break;
+			case -1:
+				$('#game_time__timeout_home_hide').addClass('active');
+				break;
+			default: // error -> unknown
+				$('#game_time__timeout_home_hide').addClass('active');
+		}
+		switch(game_time.getTimeoutsGuests()) {
+			case 3:
+				$('#game_time__timeout_guests_3').addClass('active');
+				break;
+			case 2:
+				$('#game_time__timeout_guests_2').addClass('active');
+				break;
+			case 1:
+				$('#game_time__timeout_guests_1').addClass('active');
+				break;
+			case 0:
+				$('#game_time__timeout_guests_0').addClass('active');
+				break;
+			case -1:
+				$('#game_time__timeout_guests_hide').addClass('active');
+				break;
+			default: // error -> unknown
+				$('#game_time__timeout_guests_hide').addClass('active');
+		}
 	});
 	
 	// ############# SEND SCOREBOARD ################
@@ -577,6 +689,62 @@
 		socket.emit('scoreboard', scoreboard);
 	});
 	
+	
+	// downs
+	$('#scoreboard__down_1').click(function(){
+		console.log("set down");
+		scoreboard.setDown(1);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__down_2').click(function(){
+		console.log("set down");
+		scoreboard.setDown(2);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__down_3').click(function(){
+		console.log("set down");
+		scoreboard.setDown(3);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__down_4').click(function(){
+		console.log("set down");
+		scoreboard.setDown(4);
+		socket.emit('scoreboard', scoreboard);
+	});
+	$('#scoreboard__down_hide').click(function(){
+		console.log("set down");
+		scoreboard.setDown(0);
+		socket.emit('scoreboard', scoreboard);
+	});
+	
+	// distance
+	$('#scoreboard__distance_10').click(function(){
+		console.log("set distance");
+		scoreboard.setDistance(10);
+		socket.emit('scoreboard', scoreboard);
+		return false;
+	});
+	$('#scoreboard__distance_5').click(function(){
+		console.log("set distance");
+		scoreboard.setDistance(5);
+		socket.emit('scoreboard', scoreboard);
+		return false;
+	});
+	$('#scoreboard__distance_0').click(function(){
+		console.log("set distance");
+		scoreboard.setDistance(0);
+		socket.emit('scoreboard', scoreboard);
+		return false;
+	});
+	$('#scoreboard__distance_form').submit(function(){
+		var distance = parseInt($('#scoreboard__distance').val());
+		if (isNaN(distance)) return false;
+		console.log('setting distance manually ' + distance);
+		scoreboard.setDistance(distance);
+		socket.emit('scoreboard', scoreboard);
+		return false;
+	});
+	
 	// ############# RECEIVE SCOREBOARD ################
 	socket.on('scoreboard', function(_scoreboard){
 		$.extend(scoreboard,_scoreboard);
@@ -594,6 +762,35 @@
 		// points
 		$('#scoreboard__pointsHome').val(scoreboard.getPointsHome());
 		$('#scoreboard__pointsGuests').val(scoreboard.getPointsGuests());
+		
+		// down
+		$('#scoreboard__down_1').removeClass('active');
+		$('#scoreboard__down_2').removeClass('active');
+		$('#scoreboard__down_3').removeClass('active');
+		$('#scoreboard__down_4').removeClass('active');
+		$('#scoreboard__down_hide').removeClass('active');
+		switch(scoreboard.getDown()) {
+			case 1:
+				$('#scoreboard__down_1').addClass('active');
+				break;
+			case 2:
+				$('#scoreboard__down_2').addClass('active');
+				break;
+			case 3:
+				$('#scoreboard__down_3').addClass('active');
+				break;
+			case 4:
+				$('#scoreboard__down_4').addClass('active');
+				break;
+			case -1:
+				$('#scoreboard__down_hide').addClass('active');
+				break;
+			default: // error -> unknown
+				$('#scoreboard__down_hide').addClass('active');
+		}
+		
+		// distance
+		$('#scoreboard__distance').val(scoreboard.getDistance());
 		
 	});
 	
